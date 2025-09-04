@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RéussirBac - Apprends différemment. Réussis intelligemment.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            z-index: 1000;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(252, 251, 251, 0.98);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+        
+    
+        .nav-links a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+           
+        }
+       
+       
+        
+       
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #3b82f6;
+        }
+
+         /* Dropdown arrow */
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links li:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            right: 18%;
+            background: rgb(253, 252, 252);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-links li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 12px 20px;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a::after {
+            display: none;
+        }
+
+        .dropdown a:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+            color: #3b82f6;
+            padding-left: 25px;
+        }
+
+        /* Nested Dropdown */
+        .dropdown .dropdown-item {
+            position: relative;
+        }
+
+        .nested-dropdown {
+            position: absolute;
+            top: 0;
+            left: 80%;
+            background: rgb(251, 251, 251);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-10px) scale(0.95);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-item:hover .nested-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+        }
+
+        .nested-dropdown a {
+            padding: 10px 18px;
+            font-size: 0.9rem;
+        }
+
+        .nested-dropdown a:hover {
+            padding-left: 22px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #374151;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.896);
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 15px 20px;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            background: rgba(59, 130, 246, 0.05);
+            color: #3b82f6;
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown {
+            display: none;
+            background: rgba(59, 130, 246, 0.02);
+            border-left: 3px solid #3b82f6;
+            margin: 5px 0;
+        }
+
+        .mobile-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-dropdown a {
+            padding: 10px 30px;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .mobile-nested-dropdown {
+            display: none;
+            background: rgba(34, 197, 94, 0.02);
+            border-left: 3px solid #22c55e;
+            margin: 3px 0;
+        }
+
+        .mobile-nested-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-nested-dropdown a {
+            padding: 8px 40px;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .mobile-dropdown-arrow {
+            float: right;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 300px;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            padding-top: 70px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.2) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+            animation: heroFadeIn 2s ease-out;
+        }
+
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Geometric shapes */
+        .floating-shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        .shape-1 {
+            top: 10%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            transform: rotate(45deg);
+        }
+
+        .shape-2 {
+            top: 70%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .shape-3 {
+            bottom: 20%;
+            left: 20%;
+            width: 100px;
+            height: 100px;
+            background: white;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #f8fafc;
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: #1f2937;
+            padding: 30px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.05);
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .stat-item:hover::before {
+            left: 100%;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            border-color: #3b82f6;
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 100px 0;
+            color: #1f2937;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: #e5f0fad3;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(23, 39, 65, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+            background: white;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            color: #1f2937;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Founders Section */
+        .founders {
+            background: #fbfbfc;
+            padding: 100px 0;
+            color: #1f2937;
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+             border-radius: 30px;
+        }
+
+        .founder-card {
+            background: rgba(235, 240, 250, 0.803);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .founder-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .founder-card:hover::before {
+            opacity: 1;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-10px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+        }
+
+        .founder-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .founder-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            color: #1f2937;
+        }
+
+        .founder-card p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Why Different Section */
+        .why-different {
+            background: white;
+            padding: 100px 0;
+            color: #1f2937;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+        }
+
+        .value-item {
+            padding: 40px;
+            border-left: 4px solid;
+            border-image: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%) 1;
+            background: #f8fafc;
+            border-radius: 0 15px 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateX(10px);
+            background: white;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .value-item h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .value-item p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-content {
+                padding: 0 15px;
+                max-width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+                line-height: 1.3;
+                margin-bottom: 1rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                padding: 0 10px;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                padding: 0 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .founders-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .founder-card {
+                padding: 30px 20px;
+            }
+
+            .feature-card {
+                padding: 30px 20px;
+            }
+
+            .value-item {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+                line-height: 1.4;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+                padding: 0 5px;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                padding: 0 15px;
+            }
+
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .hero-content {
+                padding: 0 10px;
+            }
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <script>
+       function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('active');
+}
+
+function setActiveLink(element) {
+    // Remove active class from all links
+    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(link => {
+        link.classList.remove('active');
+    });
+    // Add active class to clicked link
+    element.classList.add('active');
+    // Close mobile menu
+    document.getElementById('mobileMenu').classList.remove('active');
+}
+    </script>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">RéussirBac</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="methodologie.html">Méthodologie</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li >
+                    <a href="#resources" >
+                        Ressources
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <div class="dropdown-item">
+                            <a href="#science-math">
+                                Science Math
+                                <span class="dropdown-arrow" style="float: right;">▶</span>
+                            </a>
+                            <div class="nested-dropdown">
+                                <a href="math1.html">Mathématiques</a>
+                                <a href="physique1.html">Physique Chimie</a>
+                                <a href="svt1.htmlt">SVT</a>
+                                <a href="philosophie.html">Philosophie</a>
+                                <a href="english.html">Langue Anglais</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#science-physique">
+                                Science Physique
+                                <span class="dropdown-arrow" style="float: right;">▶</span>
+                            </a>
+                            <div class="nested-dropdown">
+                                <a href="math2.html">Mathématiques</a>
+                                <a href="physique2.html">Physique Chimie</a>
+                                <a href="#svt">SVT</a>
+                                <a href="philosophie.html">Philosophie</a>
+                                <a href="english.html">Langue Anglais</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="apropos.html">À propos</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="#" onclick="setActiveLink(this)">Accueil</a>
+                <a href="methodologie.html" onclick="setActiveLink(this)">Méthodologie</a>
+                <a href="articles.html" onclick="setActiveLink(this)">Articles</a>
+                <a href="#resources" class="mobile-link active mobile-dropdown-trigger">
+                    Ressources
+                    <span class="mobile-dropdown-arrow">▼</span>
+                </a>
+                <div class="mobile-dropdown" id="mobileResourcesDropdown">
+                    <a href="#science-math" class="mobile-nested-trigger">
+                        Science Math
+                        <span class="mobile-dropdown-arrow">▼</span>
+                    </a>
+                    <div class="mobile-nested-dropdown" id="mobileScienceMathDropdown">
+                        <a href="math1.html">Mathématiques</a>
+                        <a href="physique1.html">Physique Chimie</a>
+                        <a href="svt1.html">SVT</a>
+                        <a href="philosophie.html">Philosophie</a>
+                        <a href="english.html">Langue Anglais</a>
+                    </div>
+                    <a href="#science-physique" class="mobile-nested-trigger">
+                        Science Physique
+                        <span class="mobile-dropdown-arrow">▼</span>
+                    </a>
+                    <div class="mobile-nested-dropdown" id="mobileSciencePhysiqueDropdown">
+                        <a href="math2.html">Mathématiques</a>
+                        <a href="physique2.html">Physique Chimie</a>
+                        <a href="#svt">SVT</a>
+                        <a href="philosophie.html">Philosophie</a>
+                        <a href="english.html">Langue Anglais</a>
+                    </div>
+                </div>
+                <a href="apropos.html" onclick="setActiveLink(this)">À propos</a>
+                <a href="contact.html" onclick="setActiveLink(this)">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        
+        <div class="hero-content">
+            <h1>Apprends différemment.<br>Réussis intelligemment.</h1>
+            <p>Transforme ta façon d'étudier avec une plateforme éducative révolutionnaire qui s'adapte à ton rythme et maximise tes résultats.</p>
+            <a href="#features" class="cta-button">Découvrir la différence</a>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="100">0</span>
+                    <div class="stat-label">Cours interactifs</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="250">0</span>
+                    <div class="stat-label">Exercices pratiques</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="50">0</span>
+                    <div class="stat-label">Examens corrigés</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="10000">0</span>
+                    <div class="stat-label">Élèves motivés</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Une expérience d'apprentissage unique</h2>
+            <div class="features-grid">
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Cours interactifs</h3>
+                    <p>Des contenus dynamiques et engageants qui s'adaptent à ton style d'apprentissage pour une compréhension optimale.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">📊</div>
+                    <h3>Examens nationaux</h3>
+                    <p>Prépare-toi efficacement avec des simulations d'examens réels et des corrections détaillées par nos experts.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">💎</div>
+                    <h3>Ressources exclusives</h3>
+                    <p>Accède à une bibliothèque de ressources premium créées spécialement pour maximiser ton potentiel académique.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Méthodologie innovante</h3>
+                    <p>Découvre des techniques d'apprentissage révolutionnaires basées sur les dernières recherches en neurosciences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founders Section -->
+    <section class="founders">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Les visionnaires derrière le projet</h2>
+            <div class="founders-grid">
+                <div class="founder-card animate-on-scroll">
+                    <div class="founder-avatar">AM</div>
+                    <h3>Abderrahim Aguni</h3>
+                    <p>Ancien étudiant à lycée Mohamed 6 d'éxcellence (lm6e) de Benguerir et actuellement en classes préparatoires (CPGE). Passionné par le volontariat et le partage du savoir, engagé dans la création de ressources éducatives accessibles pour soutenir les élèves dans leur parcours académique.</p>
+                </div>
+                <div class="founder-card animate-on-scroll">
+                    <div class="founder-avatar">SD</div>
+                    <h3>Mohmed Bouelaasri</h3>
+                    <p>Co-fondatrice & Directrice Technique. Ingénieure en IA et passionnée d'éducation, elle développe les technologies qui personnalisent votre parcours d'apprentissage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Different Section -->
+    <section class="why-different">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Pourquoi ce site est différent ?</h2>
+            <div class="values-grid">
+                <div class="value-item animate-on-scroll">
+                    <h3>Excellence académique</h3>
+                    <p>Nous croyons que chaque élève mérite un enseignement de qualité supérieure. Nos contenus sont créés par des experts reconnus et constamment mis à jour selon les dernières innovations pédagogiques.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Personnalisation intelligente</h3>
+                    <p>Notre IA analyse ton style d'apprentissage et adapte automatiquement le contenu à tes besoins. Fini l'approche unique pour tous, place à un parcours sur mesure qui maximise tes résultats.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Communauté bienveillante</h3>
+                    <p>Plus qu'une plateforme, nous construisons une communauté où l'entraide et la motivation collective propulsent chacun vers la réussite. Ensemble, nous repoussons les limites du possible.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Vision long terme</h3>
+                    <p>Notre mission dépasse les notes : nous formons les penseurs critiques de demain. Développe ton autonomie, ta créativité et ta confiance pour exceller dans tous les domaines de ta vie.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Apprentissage</h4>
+                    <a href="#">Méthodologie</a>
+                    <a href="#">Cours interactifs</a>
+                    <a href="#">Examens blancs</a>
+                    <a href="#">Ressources premium</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contenus</h4>
+                    <a href="#">Articles</a>
+                    <a href="#">Ressources</a>
+                    <a href="#">Guides d'étude</a>
+                    <a href="#">Outils pratiques</a>
+                </div>
+                <div class="footer-section">
+                    <h4>À propos</h4>
+                    <a href="#">Notre mission</a>
+                    <a href="#">L'équipe</a>
+                    <a href="#">Témoignages</a>
+                    <a href="#">Partenaires</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#">Contact</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Aide technique</a>
+                    <a href="#">Feedback</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Tous droits réservés © 2025 EduVision. Transformons l'éducation ensemble.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animated counter
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.floor(current) + '+';
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.textContent = target + '+';
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        
+                        // Trigger counter animation when stats section is visible
+                        if (entry.target.classList.contains('stat-item') && !entry.target.hasAttribute('data-animated')) {
+                            entry.target.setAttribute('data-animated', 'true');
+                            setTimeout(() => {
+                                animateCounters();
+                            }, 500);
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Smooth scrolling for CTA button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#features').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Initialize animations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            animateOnScroll();
+        });
+
+        // Add parallax effect to hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const rate = scrolled * -0.5;
+            hero.style.transform = `translateY(${rate}px)`;
+        });
+        // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile dropdown functionality
+            const mobileDropdownTriggers = document.querySelectorAll('.mobile-dropdown-trigger');
+            const mobileNestedTriggers = document.querySelectorAll('.mobile-nested-trigger');
+
+            mobileDropdownTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const dropdown = this.nextElementSibling;
+                    const arrow = this.querySelector('.mobile-dropdown-arrow');
+                    
+                    if (dropdown.classList.contains('active')) {
+                        dropdown.classList.remove('active');
+                        arrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        dropdown.classList.add('active');
+                        arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            mobileNestedTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const nestedDropdown = this.nextElementSibling;
+                    const arrow = this.querySelector('.mobile-dropdown-arrow');
+                    
+                    if (nestedDropdown.classList.contains('active')) {
+                        nestedDropdown.classList.remove('active');
+                        arrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        nestedDropdown.classList.add('active');
+                        arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // Tab button functionality
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show content for selected tab
+                    const tabName = this.getAttribute('data-tab');
+                    showContent(tabName);
+                });
+            });
+    </script>
+</body>
+</html>
