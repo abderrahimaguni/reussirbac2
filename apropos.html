@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - RéussirBac</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+            padding-top: 70px;
+        }
+
+        /* Navbar - Identique à la page d'accueil */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            z-index: 1000;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 0;
+        }
+
+        .nav-links > li > a::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links > li > a:hover::after,
+        .nav-links > li > a.active::after {
+            width: 100%;
+        }
+
+        .nav-links > li > a:hover,
+        .nav-links > li > a.active {
+            color: #3b82f6;
+        }
+
+        /* Dropdown arrow */
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links li:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-links li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 12px 20px;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+            color: #3b82f6;
+            padding-left: 25px;
+        }
+
+        /* Nested Dropdown */
+        .dropdown .dropdown-item {
+            position: relative;
+        }
+
+        .nested-dropdown {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-10px) scale(0.95);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-item:hover .nested-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+        }
+
+        .nested-dropdown a {
+            padding: 10px 18px;
+            font-size: 0.9rem;
+        }
+
+        .nested-dropdown a:hover {
+            padding-left: 22px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #374151;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 15px 20px;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            background: rgba(59, 130, 246, 0.05);
+            color: #3b82f6;
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown {
+            display: none;
+            background: rgba(59, 130, 246, 0.02);
+            border-left: 3px solid #3b82f6;
+            margin: 5px 0;
+        }
+
+        .mobile-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-dropdown a {
+            padding: 10px 30px;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .mobile-nested-dropdown {
+            display: none;
+            background: rgba(34, 197, 94, 0.02);
+            border-left: 3px solid #22c55e;
+            margin: 3px 0;
+        }
+
+        .mobile-nested-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-nested-dropdown a {
+            padding: 8px 40px;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .mobile-dropdown-arrow {
+            float: right;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 300px;
+                transform: translateY(0);
+            }
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            color: white;
+            text-align: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #6b7280;
+            line-height: 1.8;
+            margin-bottom: 50px;
+        }
+
+        /* Mission Section */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mission-card:hover::before {
+            opacity: 1;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+            border-color: #3b82f6;
+        }
+
+        .mission-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            border-radius: 20px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mission-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mission-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .team-card {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.05);
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .team-card:hover::before {
+            opacity: 1;
+        }
+
+        .team-card:hover {
+            transform: translateY(-15px);
+            border-color: #3b82f6;
+            box-shadow: 0 25px 80px rgba(59, 130, 246, 0.2);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .team-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            color: #1f2937;
+        }
+
+        .team-role {
+            color: #3b82f6;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .team-card p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Values Section */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .value-item {
+            padding: 40px;
+            border-left: 4px solid;
+            border-image: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%) 1;
+            background: white;
+            border-radius: 0 15px 15px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.05);
+        }
+
+        .value-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .value-item h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .value-item p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Footer - Identique à la page d'accueil */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #3b82f6;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .dropdown,
+            .nested-dropdown {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                padding: 0 20px;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .mission-grid,
+            .team-grid,
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .mission-card,
+            .team-card {
+                padding: 30px 20px;
+            }
+
+            .value-item {
+                padding: 30px 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar - Identique à la page d'accueil -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">RéussirBac</a>
+            <ul class="nav-links">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="#methodology">Méthodologie</a></li>
+                <li><a href="#articles">Articles</a></li>
+                <li class="dropdown-parent">
+                    <a href="#resources">
+                        Ressources
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <div class="dropdown-item">
+                            <a href="#science-math">
+                                Science Math
+                                <span class="dropdown-arrow" style="float: right;">▶</span>
+                            </a>
+                            <div class="nested-dropdown">
+                                <a href="#mathematiques">Mathématiques</a>
+                                <a href="#physique-chimie">Physique Chimie</a>
+                                <a href="#svt">SVT</a>
+                                <a href="#philosophie">Philosophie</a>
+                                <a href="#langue-anglais">Langue Anglais</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#science-physique">
+                                Science Physique
+                                <span class="dropdown-arrow" style="float: right;">▶</span>
+                            </a>
+                            <div class="nested-dropdown">
+                                <a href="#mathematiques">Mathématiques</a>
+                                <a href="#physique-chimie">Physique Chimie</a>
+                                <a href="#svt">SVT</a>
+                                <a href="#philosophie">Philosophie</a>
+                                <a href="#langue-anglais">Langue Anglais</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="#about" class="active">À propos</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="/" class="mobile-link">Accueil</a>
+                <a href="#methodology" class="mobile-link">Méthodologie</a>
+                <a href="#articles" class="mobile-link">Articles</a>
+                <a href="#resources" class="mobile-link mobile-dropdown-trigger">
+                    Ressources
+                    <span class="mobile-dropdown-arrow">▼</span>
+                </a>
+                <div class="mobile-dropdown" id="mobileResourcesDropdown">
+                    <a href="#science-math" class="mobile-nested-trigger">
+                        Science Math
+                        <span class="mobile-dropdown-arrow">▼</span>
+                    </a>
+                    <div class="mobile-nested-dropdown" id="mobileScienceMathDropdown">
+                        <a href="#mathematiques">Mathématiques</a>
+                        <a href="#physique-chimie">Physique Chimie</a>
+                        <a href="#svt">SVT</a>
+                        <a href="#philosophie">Philosophie</a>
+                        <a href="#langue-anglais">Langue Anglais</a>
+                    </div>
+                    <a href="#science-physique" class="mobile-nested-trigger">
+                        Science Physique
+                        <span class="mobile-dropdown-arrow">▼</span>
+                    </a>
+                    <div class="mobile-nested-dropdown" id="mobileSciencePhysiqueDropdown">
+                        <a href="#mathematiques">Mathématiques</a>
+                        <a href="#physique-chimie">Physique Chimie</a>
+                        <a href="#svt">SVT</a>
+                        <a href="#philosophie">Philosophie</a>
+                        <a href="#langue-anglais">Langue Anglais</a>
+                    </div>
+                </div>
+                <a href="#about" class="mobile-link active">À propos</a>
+                <a href="#contact" class="mobile-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title">À propos de RéussirBac</h1>
+            <p class="page-subtitle">Découvrez notre mission, notre équipe et les valeurs qui nous animent dans cette aventure éducative révolutionnaire.</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="section" id="mission">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Notre Mission</h2>
+            <div class="section-content animate-on-scroll">
+                <p class="section-description">
+                    RéussirBac est né d'une vision simple mais ambitieuse : révolutionner l'éducation en rendant l'apprentissage plus accessible, plus efficace et plus engageant pour tous les élèves. Nous croyons que chaque étudiant mérite les meilleures ressources pour réussir son parcours académique.
+                </p>
+            </div>
+            <div class="mission-grid">
+                <div class="mission-card animate-on-scroll">
+                    <div class="mission-icon">🎯</div>
+                    <h3>Excellence Éducative</h3>
+                    <p>Nous proposons des contenus pédagogiques de haute qualité, créés par des experts reconnus et constamment mis à jour selon les dernières innovations éducatives.</p>
+                </div>
+                <div class="mission-card animate-on-scroll">
+                    <div class="mission-icon">🌍</div>
+                    <h3>Accessibilité Universelle</h3>
+                    <p>Notre plateforme est conçue pour être accessible à tous, peu importe le niveau socio-économique ou la localisation géographique des étudiants.</p>
+                </div>
+                <div class="mission-card animate-on-scroll">
+                    <div class="mission-icon">🚀</div>
+                    <h3>Innovation Pédagogique</h3>
+                    <p>Nous intégrons les dernières technologies éducatives pour créer des expériences d'apprentissage immersives et personnalisées.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section" id="equipe">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Notre Équipe</h2>
+            <div class="section-content animate-on-scroll">
+                <p class="section-description">
+                    Derrière RéussirBac se trouve une équipe passionnée d'éducateurs, de technologues et de visionnaires unis par un objectif commun : transformer l'éducation pour les générations futures.
+                </p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card animate-on-scroll">
+                    <div class="team-avatar">SD</div>
+                    <h3>Abderrahim Aguni</h3>
+                    <div class="team-role">Respnsable de creation de site</div>
+                    <p>Ancien étudiant à lycée Mohamed 6 d'éxcellence (lm6e) de Benguerir et actuellement en classes préparatoires (CPGE). Passionné par le volontariat et le partage du savoir, engagé dans la création de ressources éducatives accessibles pour soutenir les élèves dans leur parcours académique.</p>
+                </div>
+                <div class="team-card animate-on-scroll">
+                    <div class="team-avatar">JL</div>
+                    <h3>Mohmed Bouelaasri</h3>
+                    <div class="team-role">Resposable de collections de ressources</div>
+                    <p>Ancien inspecteur de l'Éducation Nationale et agrégé de mathématiques, Jean supervise la qualité pédagogique de nos contenus et assure leur conformité avec les programmes officiels.</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <!--<section class="stats-section">
+        <div class="container">
+            <h2 class="section-title" style="color: white; margin-bottom: 20px;">RéussirBac en Chiffres</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">Des résultats concrets qui témoignent de l'impact de notre approche pédagogique innovante</p>
+            <div class="stats-grid">
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="15000">0</span>
+                    <div class="stat-label">Étudiants accompagnés</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="92">0</span>
+                    <div class="stat-label">% de réussite au Bac</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="500">0</span>
+                    <div class="stat-label">Ressources pédagogiques</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <span class="stat-number" data-target="50">0</span>
+                    <div class="stat-label">Professeurs experts</div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+
+    
+    <!-- Values Section -->
+    <section class="section" id="valeurs">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Nos Valeurs</h2>
+            <div class="section-content animate-on-scroll">
+                <p class="section-description">
+                    Nos valeurs fondamentales guident chaque décision que nous prenons et façonnent l'expérience que nous créons pour nos étudiants.
+                </p>
+            </div>
+            <div class="values-grid">
+                <div class="value-item animate-on-scroll">
+                    <h3>Excellence Académique</h3>
+                    <p>Nous nous engageons à maintenir les plus hauts standards de qualité dans tous nos contenus pédagogiques. Chaque ressource est méticuleusement vérifiée par nos experts pour garantir une précision académique irréprochable.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Innovation Constante</h3>
+                    <p>Nous restons à l'avant-garde des technologies éducatives, intégrant continuellement de nouvelles approches pédagogiques pour enrichir l'expérience d'apprentissage de nos utilisateurs.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Bienveillance Éducative</h3>
+                    <p>Nous créons un environnement d'apprentissage positif et encourageant, où chaque étudiant peut progresser à son rythme sans pression excessive, dans le respect de sa personnalité unique.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Accessibilité Universelle</h3>
+                    <p>Nous œuvrons pour démocratiser l'accès à une éducation de qualité, en développant des solutions inclusives qui s'adaptent aux besoins de tous les profils d'apprenants.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Transparence Totale</h3>
+                    <p>Nous privilégions une communication claire et honnête avec notre communauté, partageant ouvertement nos méthodes, nos résultats et notre vision de l'éducation de demain.</p>
+                </div>
+                <div class="value-item animate-on-scroll">
+                    <h3>Impact Durable</h3>
+                    <p>Au-delà des résultats académiques immédiats, nous visons à développer chez nos étudiants les compétences critiques et la confiance nécessaires pour réussir dans leur vie future.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="section" id="vision">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Notre Vision</h2>
+            <div class="section-content animate-on-scroll">
+                <p class="section-description">
+                    Nous envisageons un futur où l'éducation transcende les barrières traditionnelles, où chaque apprenant dispose des outils personnalisés pour révéler son plein potentiel. RéussirBac aspire à devenir le catalyseur de cette transformation éducative, en créant un écosystème d'apprentissage qui s'adapte à chaque individu plutôt que de contraindre l'individu à s'adapter au système.
+                </p>
+                <div style="margin-top: 40px; padding: 40px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%); border-radius: 20px; border-left: 4px solid #3b82f6;">
+                    <h3 style="color: #3b82f6; font-size: 1.5rem; margin-bottom: 20px; text-align: center;">Notre Engagement pour 2025-2030</h3>
+                    <p style="color: #6b7280; line-height: 1.8; text-align: center; font-size: 1.1rem;">
+                        D'ici 2030, nous nous engageons à accompagner plus de 100 000 étudiants vers la réussite, à développer des parcours d'apprentissage adaptatifs utilisant l'intelligence artificielle, et à créer un réseau international d'éducateurs innovants partageant notre vision d'une éducation accessible et personnalisée.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Identique à la page d'accueil -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Apprentissage</h4>
+                    <a href="#">Méthodologie</a>
+                    <a href="#">Cours interactifs</a>
+                    <a href="#">Examens blancs</a>
+                    <a href="#">Ressources premium</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contenus</h4>
+                    <a href="#">Articles</a>
+                    <a href="#">Ressources</a>
+                    <a href="#">Guides d'étude</a>
+                    <a href="#">Outils pratiques</a>
+                </div>
+                <div class="footer-section">
+                    <h4>À propos</h4>
+                    <a href="#mission">Notre mission</a>
+                    <a href="#equipe">L'équipe</a>
+                    <a href="#valeurs">Nos valeurs</a>
+                    <a href="#vision">Notre vision</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#">Contact</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Aide technique</a>
+                    <a href="#">Feedback</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Tous droits réservés - RéussirBac. Transformons l'éducation ensemble.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const navbar = document.querySelector('.navbar');
+
+            // Mobile menu toggle
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('active');
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!navbar.contains(event.target) && mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile dropdown functionality
+            const mobileDropdownTriggers = document.querySelectorAll('.mobile-dropdown-trigger');
+            const mobileNestedTriggers = document.querySelectorAll('.mobile-nested-trigger');
+
+            mobileDropdownTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const dropdown = this.nextElementSibling;
+                    const arrow = this.querySelector('.mobile-dropdown-arrow');
+                    
+                    if (dropdown && dropdown.classList.contains('active')) {
+                        dropdown.classList.remove('active');
+                        if (arrow) arrow.style.transform = 'rotate(0deg)';
+                    } else if (dropdown) {
+                        dropdown.classList.add('active');
+                        if (arrow) arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            mobileNestedTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const nestedDropdown = this.nextElementSibling;
+                    const arrow = this.querySelector('.mobile-dropdown-arrow');
+                    
+                    if (nestedDropdown && nestedDropdown.classList.contains('active')) {
+                        nestedDropdown.classList.remove('active');
+                        if (arrow) arrow.style.transform = 'rotate(0deg)';
+                    } else if (nestedDropdown) {
+                        nestedDropdown.classList.add('active');
+                        if (arrow) arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // Handle mobile navigation links
+            const mobileLinks = document.querySelectorAll('.mobile-link:not(.mobile-dropdown-trigger):not(.mobile-nested-trigger)');
+            
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Remove active class from all mobile links
+                    document.querySelectorAll('.mobile-link').forEach(l => l.classList.remove('active'));
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    // Close mobile menu
+                    if (mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                    }
+                });
+            });
+
+            // Initialize scroll animations
+            animateOnScroll();
+            
+            // Initialize counter animation when stats section is visible
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) {
+                const statsObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !entry.target.hasAttribute('data-animated')) {
+                            entry.target.setAttribute('data-animated', 'true');
+                            setTimeout(() => {
+                                animateCounters();
+                            }, 500);
+                        }
+                    });
+                }, { threshold: 0.3 });
+                
+                statsObserver.observe(statsSection);
+            }
+        });
+
+        // Animated counter
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        if (target <= 100) {
+                            counter.textContent = Math.floor(current) + (target === 92 ? '%' : '');
+                        } else {
+                            counter.textContent = Math.floor(current).toLocaleString();
+                        }
+                        setTimeout(updateCounter, 30);
+                    } else {
+                        if (target <= 100) {
+                            counter.textContent = target + (target === 92 ? '%' : '');
+                        } else {
+                            counter.textContent = target.toLocaleString();
+                        }
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const navbarHeight = 70;
+                    const targetPosition = targetSection.offsetTop - navbarHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

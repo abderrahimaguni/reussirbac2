@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ressources - Réussir le Bac</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4a5568;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #4a5568;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Contenu principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sections de ressources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .resource-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .resource-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .resource-card h2 {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .resource-description {
+            color: #4a5568;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .resource-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .resource-features li {
+            background: rgba(102, 126, 234, 0.1);
+            margin: 10px 0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            color: #4a5568;
+            transition: all 0.3s ease;
+        }
+
+        .resource-features li:hover {
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateX(5px);
+        }
+
+        .resource-features li::before {
+            content: '✓';
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .resource-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .resource-button:hover::before {
+            left: 100%;
+        }
+
+        .resource-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .resource-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Section informative */
+        .info-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .info-section h3 {
+            color: #2d3748;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .resource-card {
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        .resource-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: rgba(255, 255, 255, 0.98);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 20px 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header {
+                padding: 30px 20px;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .resource-card {
+                padding: 30px 25px;
+            }
+
+            .resource-icon {
+                font-size: 3rem;
+            }
+
+            .resource-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .resource-card {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">📚 Réussir le Bac</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="methodologie.html">Méthodologie</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="ressources.html" class="active">Ressources</a></li>
+                <li><a href="apropos.html">À propos</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Ressources Pédagogiques</h1>
+            <p>Accédez à nos collections complètes de cours, exercices et examens pour réussir votre baccalauréat marocain. Tout le contenu nécessaire pour exceller dans vos matières scientifiques.</p>
+        </div>
+
+        <div class="resources-grid">
+            <!-- Sciences Mathématiques -->
+            <div class="resource-card">
+                <div class="resource-header">
+                    <span class="resource-icon">📐</span>
+                    <h2>Sciences Mathématiques</h2>
+                </div>
+                <p class="resource-description">
+                    Cours complets, exercices corrigés et examens blancs pour les filières Math A et Math B. Tout ce dont vous avez besoin pour maîtriser les mathématiques au baccalauréat.
+                </p>
+                <ul class="resource-features">
+                    <li>Cours détaillés avec exemples pratiques</li>
+                    <li>Exercices progressifs et corrigés</li>
+                    <li>Examens nationaux des années précédentes</li>
+                    <li>Fiches de révision synthétiques</li>
+                    <li>Formulaires et mémentos essentiels</li>
+                </ul>
+                <a href="sciencemath.html" class="resource-button">
+                    Accéder aux Ressources Math
+                </a>
+            </div>
+
+            <!-- Sciences Physiques -->
+            <div class="resource-card">
+                <div class="resource-header">
+                    <span class="resource-icon">⚛️</span>
+                    <h2>Sciences Physiques</h2>
+                </div>
+                <p class="resource-description">
+                    Ressources complètes en physique et chimie pour toutes les séries scientifiques. Expériences, théories et applications pratiques pour une compréhension approfondie.
+                </p>
+                <ul class="resource-features">
+                    <li>Cours de physique avec schémas explicatifs</li>
+                    <li>Travaux pratiques de chimie détaillés</li>
+                    <li>Exercices d'application et de synthèse</li>
+                    <li>Annales corrigées des examens nationaux</li>
+                    <li>Tableaux périodiques et constantes physiques</li>
+                </ul>
+                <a href="sciencepc.html" class="resource-button">
+                    Accéder aux Ressources Physique
+                </a>
+            </div>
+        </div>
+
+        <!-- Section informative -->
+        <div class="info-section">
+            <h3>📋 Comment utiliser nos ressources ?</h3>
+            <p>
+                Nos ressources sont organisées par filière et par niveau de difficulté. Commencez par consulter les cours pour acquérir les bases, puis entraînez-vous avec les exercices progressifs. 
+                Finalisez votre préparation avec les examens blancs pour vous mettre en condition réelle. 
+                Tous nos contenus sont conformes aux programmes officiels du ministère de l'Éducation nationale marocain.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Accueil</a>
+            <a href="methodologie.html">Méthodologie</a>
+            <a href="articles.html">Articles</a>
+            <a href="ressources.html">Ressources</a>
+            <a href="apropos.html">À propos</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <p>&copy; 2025 Réussir le Bac - Tous droits réservés</p>
+    </footer>
+
+    <script>
+        // Menu mobile
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu en cliquant sur un lien
+        document.querySelectorAll('.nav-menu a').forEach(n => n.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }));
+
+        // Animation au scroll pour les cartes
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observer les cartes de ressources
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Effet de parallaxe léger sur les cartes
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const cards = document.querySelectorAll('.resource-card');
+            
+            cards.forEach((card, index) => {
+                const speed = 0.5;
+                const yPos = -(scrolled * speed);
+                card.style.transform = `translateY(${yPos * (index + 1) * 0.1}px)`;
+            });
+        });
+
+        // Effet de hover amélioré
+        document.querySelectorAll('.resource-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.02)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

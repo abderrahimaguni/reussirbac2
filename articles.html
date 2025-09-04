@@ -1,0 +1,1166 @@
+<!-- Place this file alongside other site pages: /public/article.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles - RéussirBac</title>
+    <meta name="description" content="Découvrez nos articles sur l'éducation, les bourses d'études, les concours et conseils pour réussir votre parcours académique">
+    <style>
+        /* Reset et Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: #ffffff;
+            color: #1f2937;
+            padding-top: 70px;
+        }
+
+        /* Screen Reader Only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Container Global */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* === NAVBAR RESPONSIVE === */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            z-index: 1000;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo:hover,
+        .nav-logo:focus {
+            transform: scale(1.05);
+            outline: 2px solid transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 8px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #3b82f6;
+        }
+
+        /* Dropdown Arrow */
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links li:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .nav-links li:hover .dropdown,
+        .nav-links li:focus-within .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 12px 20px;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.05);
+            transition: all 0.3s ease;
+            border-radius: 0;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover,
+        .dropdown a:focus {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+            color: #3b82f6;
+            padding-left: 25px;
+        }
+
+        /* Nested Dropdown */
+        .dropdown-item {
+            position: relative;
+        }
+
+        .nested-dropdown {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-10px) scale(0.95);
+            transition: all 0.3s ease;
+            z-index: 1002;
+        }
+
+        .dropdown-item:hover .nested-dropdown,
+        .dropdown-item:focus-within .nested-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+        }
+
+        .nested-dropdown a {
+            padding: 10px 18px;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #374151;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover,
+        .mobile-menu-btn:focus {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            outline: 2px solid transparent;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            max-height: 500px;
+        }
+
+        .mobile-menu a,
+        .mobile-menu button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            background: none;
+            text-align: left;
+            font-size: 1rem;
+            font-family: inherit;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a:focus,
+        .mobile-menu button:hover,
+        .mobile-menu button:focus {
+            background: rgba(59, 130, 246, 0.05);
+            color: #3b82f6;
+            outline: none;
+        }
+
+        .mobile-menu a.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Mobile Dropdown */
+        .mobile-dropdown {
+            display: none;
+            background: rgba(59, 130, 246, 0.02);
+            border-left: 3px solid #3b82f6;
+            margin: 5px 0;
+        }
+
+        .mobile-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-nested-dropdown {
+            display: none;
+            background: rgba(34, 197, 94, 0.02);
+            border-left: 3px solid #22c55e;
+            margin: 3px 0;
+        }
+
+        .mobile-nested-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-dropdown-arrow {
+            float: right;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 300px;
+                transform: translateY(0);
+            }
+        }
+
+        /* === PAGE HEADER === */
+        .page-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            color: white;
+            text-align: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 35%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 65%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: headerFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes headerFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.01); }
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* === ARTICLES SECTION === */
+        .articles-section {
+            padding: 100px 0;
+            background: #f8fafc;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(59, 130, 246, 0.15);
+            border-color: #3b82f6;
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .article-content {
+            padding: 30px;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .article-category {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+            color: #3b82f6;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .article-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .article-summary {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .article-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+        }
+
+        .article-link:hover,
+        .article-link:focus {
+            color: #22c55e;
+            transform: translateX(5px);
+            outline: 2px solid transparent;
+        }
+
+        .article-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .article-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* === FOOTER === */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover,
+        .footer-section a:focus {
+            color: #3b82f6;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            opacity: 0.8;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .dropdown,
+            .nested-dropdown {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .article-content {
+                padding: 20px;
+            }
+
+            .articles-section {
+                padding: 60px 0;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .article-title {
+                font-size: 1.2rem;
+            }
+
+            .article-content {
+                padding: 15px;
+            }
+
+            .article-image {
+                height: 160px;
+                font-size: 2.5rem;
+            }
+        }
+
+        /* No JavaScript Styles */
+        .no-js .mobile-menu {
+            display: block;
+            max-height: none;
+        }
+
+        .no-js .dropdown,
+        .no-js .nested-dropdown {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <noscript>
+        <div style="background: #fef2f2; color: #dc2626; padding: 15px; text-align: center; border-bottom: 1px solid #fca5a5;">
+            ⚠️ JavaScript est désactivé. Certaines fonctionnalités du site peuvent ne pas fonctionner correctement.
+        </div>
+        <style>.no-js { display: block !important; }</style>
+    </noscript>
+
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Navigation principale">
+        <div class="nav-container">
+            <a href="/" class="nav-logo" aria-label="Retour à l'accueil RéussirBac">RéussirBac</a>
+            
+            <ul class="nav-links" role="menubar">
+                <li role="menuitem"><a href="/">Accueil</a></li>
+                <li role="menuitem"><a href="/methodology">Méthodologie</a></li>
+                <li role="menuitem"><a href="/articles" class="active" aria-current="page">Articles</a></li>
+                <li class="dropdown-parent" role="menuitem">
+                    <a href="/resources" aria-haspopup="true" aria-expanded="false">
+                        Ressources
+                        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                    </a>
+                    <div class="dropdown" role="menu" aria-label="Menu Ressources">
+                        <div class="dropdown-item">
+                            <a href="/science-math" role="menuitem" aria-haspopup="true">
+                                Science Math
+                                <span class="dropdown-arrow" aria-hidden="true" style="float: right;">▶</span>
+                            </a>
+                            <div class="nested-dropdown" role="menu" aria-label="Matières Science Math">
+                                <a href="/mathematiques" role="menuitem">Mathématiques</a>
+                                <a href="/physique-chimie" role="menuitem">Physique Chimie</a>
+                                <a href="/svt" role="menuitem">SVT</a>
+                                <a href="/philosophie" role="menuitem">Philosophie</a>
+                                <a href="/langue-anglais" role="menuitem">Langue Anglais</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="/science-physique" role="menuitem" aria-haspopup="true">
+                                Science Physique
+                                <span class="dropdown-arrow" aria-hidden="true" style="float: right;">▶</span>
+                            </a>
+                            <div class="nested-dropdown" role="menu" aria-label="Matières Science Physique">
+                                <a href="/mathematiques" role="menuitem">Mathématiques</a>
+                                <a href="/physique-chimie" role="menuitem">Physique Chimie</a>
+                                <a href="/svt" role="menuitem">SVT</a>
+                                <a href="/philosophie" role="menuitem">Philosophie</a>
+                                <a href="/langue-anglais" role="menuitem">Langue Anglais</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li role="menuitem"><a href="/about">À propos</a></li>
+                <li role="menuitem"><a href="/contact">Contact</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Ouvrir le menu de navigation" aria-expanded="false">
+                <span aria-hidden="true">☰</span>
+            </button>
+            
+            <div class="mobile-menu" id="mobileMenu" role="menu" aria-label="Menu mobile">
+                <a href="/" class="mobile-link" role="menuitem">Accueil</a>
+                <a href="/methodology" class="mobile-link" role="menuitem">Méthodologie</a>
+                <a href="/articles" class="mobile-link active" role="menuitem" aria-current="page">Articles</a>
+                <button class="mobile-link mobile-dropdown-trigger" role="menuitem" aria-expanded="false">
+                    Ressources
+                    <span class="mobile-dropdown-arrow" aria-hidden="true">▼</span>
+                </button>
+                <div class="mobile-dropdown" id="mobileResourcesDropdown">
+                    <button class="mobile-nested-trigger" role="menuitem" aria-expanded="false">
+                        Science Math
+                        <span class="mobile-dropdown-arrow" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="mobile-nested-dropdown">
+                        <a href="/mathematiques" role="menuitem">Mathématiques</a>
+                        <a href="/physique-chimie" role="menuitem">Physique Chimie</a>
+                        <a href="/svt" role="menuitem">SVT</a>
+                        <a href="/philosophie" role="menuitem">Philosophie</a>
+                        <a href="/langue-anglais" role="menuitem">Langue Anglais</a>
+                    </div>
+                    <button class="mobile-nested-trigger" role="menuitem" aria-expanded="false">
+                        Science Physique
+                        <span class="mobile-dropdown-arrow" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="mobile-nested-dropdown">
+                        <a href="/mathematiques" role="menuitem">Mathématiques</a>
+                        <a href="/physique-chimie" role="menuitem">Physique Chimie</a>
+                        <a href="/svt" role="menuitem">SVT</a>
+                        <a href="/philosophie" role="menuitem">Philosophie</a>
+                        <a href="/langue-anglais" role="menuitem">Langue Anglais</a>
+                    </div>
+                </div>
+                <a href="/about" class="mobile-link" role="menuitem">À propos</a>
+                <a href="/contact" class="mobile-link" role="menuitem">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title">Articles Éducatifs</h1>
+            <p class="page-subtitle">Découvrez nos conseils, guides et actualités pour réussir votre parcours académique</p>
+        </div>
+    </header>
+
+    <!-- Articles Section -->
+    <main class="articles-section">
+        <div class="container">
+            <h2 class="section-title">Derniers Articles</h2>
+            
+            <div class="articles-grid">
+                <!-- Article 1 -->
+                <article class="article-card">
+                    <div class="article-image" aria-label="Image d'illustration de l'article">
+                        🎓
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">Bourses d'études</span>
+                            <div class="article-date">
+                                <span aria-hidden="true">📅</span>
+                                <time datetime="2025-01-15">15 janvier 2025</time>
+                            </div>
+                        </div>
+                        <h3 class="article-title">Guide Complet des Bourses d'Études 2025</h3>
+                        <p class="article-summary">
+                            Découvrez toutes les opportunités de financement pour vos études supérieures. De la bourse du CROUS aux aides spécifiques, notre guide détaillé vous aide à identifier les bourses adaptées à votre profil et maximiser vos chances d'obtention.
+                        </p>
+                        <a href="/article/guide-bourses-etudes-2025" class="article-link" aria-label="Lire l'article complet sur le guide des bourses d'études 2025">
+                            Lire la suite
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="article-card">
+                    <div class="article-image" aria-label="Image d'illustration de l'article">
+                        📚
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">Méthodologie</span>
+                            <div class="article-date">
+                                <span aria-hidden="true">📅</span>
+                                <time datetime="2025-01-12">12 janvier 2025</time>
+                            </div>
+                        </div>
+                        <h3 class="article-title">10 Techniques de Mémorisation Scientifiquement Prouvées</h3>
+                        <p class="article-summary">
+                            Améliorez votre capacité de mémorisation avec ces techniques basées sur les neurosciences. De la répétition espacée aux palais mentaux, découvrez les méthodes les plus efficaces pour retenir durablement vos cours et optimiser vos révisions.
+                        </p>
+                        <a href="/article/techniques-memorisation-efficaces" class="article-link" aria-label="Lire l'article complet sur les techniques de mémorisation">
+                            Lire la suite
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="article-card">
+                    <div class="article-image" aria-label="Image d'illustration de l'article">
+                        🏫
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">Orientation</span>
+                            <div class="article-date">
+                                <span aria-hidden="true">📅</span>
+                                <time datetime="2025-01-10">10 janvier 2025</time>
+                            </div>
+                        </div>
+                        <h3 class="article-title">Parcoursup 2025 : Les Dates Clés et Nouveautés</h3>
+                        <p class="article-summary">
+                            Préparez-vous efficacement pour Parcoursup 2025 ! Découvrez le calendrier complet, les nouvelles formations disponibles, et nos conseils stratégiques pour optimiser vos choix d'orientation et maximiser vos chances d'admission dans vos formations préférées.
+                        </p>
+                        <a href="/article/parcoursup-2025-guide-complet" class="article-link" aria-label="Lire l'article complet sur Parcoursup 2025">
+                            Lire la suite
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="article-card">
+                    <div class="article-image" aria-label="Image d'illustration de l'article">
+                        🧠
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">Préparation</span>
+                            <div class="article-date">
+                                <span aria-hidden="true">📅</span>
+                                <time datetime="2025-01-08">8 janvier 2025</time>
+                            </div>
+                        </div>
+                        <h3 class="article-title">Gérer le Stress des Examens : Guide Pratique</h3>
+                        <p class="article-summary">
+                            Transformez votre stress en atout pour vos examens ! Techniques de respiration, planning de révisions équilibré, gestion du sommeil... Découvrez nos stratégies éprouvées pour aborder sereinement vos épreuves et donner le meilleur de vous-même.
+                        </p>
+                        <a href="/article/gerer-stress-examens-conseils" class="article-link" aria-label="Lire l'article complet sur la gestion du stress des examens">
+                            Lire la suite
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Apprentissage</h4>
+                    <a href="/methodology">Méthodologie</a>
+                    <a href="/courses">Cours interactifs</a>
+                    <a href="/exams">Examens blancs</a>
+                    <a href="/premium">Ressources premium</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contenus</h4>
+                    <a href="/articles">Articles</a>
+                    <a href="/resources">Ressources</a>
+                    <a href="/guides">Guides d'étude</a>
+                    <a href="/tools">Outils pratiques</a>
+                </div>
+                <div class="footer-section">
+                    <h4>À propos</h4>
+                    <a href="/about#mission">Notre mission</a>
+                    <a href="/about#team">L'équipe</a>
+                    <a href="/about#values">Nos valeurs</a>
+                    <a href="/about#vision">Notre vision</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="/contact">Contact</a>
+                    <a href="/faq">FAQ</a>
+                    <a href="/help">Aide technique</a>
+                    <a href="/feedback">Feedback</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>حقوق الموقع © 2025 RéussirBac. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const navbar = document.querySelector('.navbar');
+
+            // Mobile menu toggle
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    const isExpanded = mobileMenu.classList.contains('active');
+                    mobileMenu.classList.toggle('active');
+                    mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenuBtn.setAttribute('aria-label', !isExpanded ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation');
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!navbar.contains(event.target) && mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        mobileMenuBtn.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+                    }
+                });
+
+                // Close mobile menu on escape key
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        mobileMenuBtn.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+                        mobileMenuBtn.focus();
+                    }
+                });
+            }
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile dropdown functionality
+            const mobileDropdownTriggers = document.querySelectorAll('.mobile-dropdown-trigger');
+            const mobileNestedTriggers = document.querySelectorAll('.mobile-nested-trigger');
+
+            mobileDropdownTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const dropdown = this.nextElementSibling;
+                    const arrow = this.querySelector('.mobile-dropdown-arrow');
+                    const isExpanded = dropdown.classList.contains('active');
+                    
+                    if (dropdown && dropdown.classList.contains('active')) {
+                        dropdown.classList.remove('active');
+                        if (arrow) arrow.style.transform = 'rotate(0deg)';
+                        this.setAttribute('aria-expanded', 'false');
+                    } else if (dropdown) {
+                        dropdown.classList.add('active');
+                        if (arrow) arrow.style.transform = 'rotate(180deg)';
+                        this.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+
+            mobileNestedTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const nestedDropdown = this.nextElementSibling;
+                    const arrow = this.querySelector('.mobile-dropdown-arrow');
+                    
+                    if (nestedDropdown && nestedDropdown.classList.contains('active')) {
+                        nestedDropdown.classList.remove('active');
+                        if (arrow) arrow.style.transform = 'rotate(0deg)';
+                        this.setAttribute('aria-expanded', 'false');
+                    } else if (nestedDropdown) {
+                        nestedDropdown.classList.add('active');
+                        if (arrow) arrow.style.transform = 'rotate(180deg)';
+                        this.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+
+            // Handle mobile navigation links
+            const mobileLinks = document.querySelectorAll('.mobile-link:not(.mobile-dropdown-trigger):not(.mobile-nested-trigger)');
+            
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    document.querySelectorAll('.mobile-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    if (mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        mobileMenuBtn.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+                    }
+                });
+            });
+
+            // Keyboard navigation for dropdowns
+            const dropdownLinks = document.querySelectorAll('.nav-links a[aria-haspopup="true"]');
+            
+            dropdownLinks.forEach(link => {
+                link.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const dropdown = this.nextElementSibling;
+                        if (dropdown) {
+                            const firstLink = dropdown.querySelector('a');
+                            if (firstLink) {
+                                firstLink.focus();
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Enhanced article card interactions
+            const articleCards = document.querySelectorAll('.article-card');
+            
+            articleCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+
+                // Make entire card clickable
+                card.addEventListener('click', function(e) {
+                    const link = this.querySelector('.article-link');
+                    if (link && e.target !== link) {
+                        link.click();
+                    }
+                });
+
+                // Keyboard support for cards
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        const link = this.querySelector('.article-link');
+                        if (link) {
+                            link.click();
+                        }
+                    }
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('a[href^="#"]')) {
+                    e.preventDefault();
+                    const targetId = e.target.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        const navbarHeight = 70;
+                        const targetPosition = targetSection.offsetTop - navbarHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+
+            // Initialize scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Apply fade-in animation to article cards
+            articleCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+
+            // Add focus management for better accessibility
+            document.addEventListener('keydown', function(e) {
+                // Tab key navigation enhancement
+                if (e.key === 'Tab') {
+                    const focusableElements = document.querySelectorAll(
+                        'a[href], button, [tabindex]:not([tabindex="-1"])'
+                    );
+                    
+                    focusableElements.forEach(element => {
+                        element.addEventListener('focus', function() {
+                            this.style.outline = '2px solid #3b82f6';
+                            this.style.outlineOffset = '2px';
+                        });
+
+                        element.addEventListener('blur', function() {
+                            this.style.outline = '';
+                            this.style.outlineOffset = '';
+                        });
+                    });
+                }
+            });
+
+            console.log('Article page loaded successfully');
+        });
+
+        // Performance optimization: Lazy loading for article images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const articleImage = entry.target;
+                        articleImage.style.backgroundImage = articleImage.dataset.bg;
+                        imageObserver.unobserve(articleImage);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.article-image[data-bg]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        // Error handling for external links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href^="http"]')) {
+                // Add external link indicator
+                if (!e.target.hasAttribute('target')) {
+                    e.target.setAttribute('target', '_blank');
+                    e.target.setAttribute('rel', 'noopener noreferrer');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
